@@ -54,7 +54,10 @@
 
 ;; keybindings
 (global-set-key (kbd "C-c C-b") 'browse-url-at-point)
-
+(global-set-key (kbd "M-j")
+                (lambda ()
+                  (interactive)
+                  (join-line -1)))
 ;; Apsu
 ;; Make M-f/b/d/bkspc not suck!
 (global-set-key (kbd "M-f") 'forward-same-syntax)
