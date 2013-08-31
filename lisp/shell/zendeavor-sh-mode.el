@@ -1,4 +1,4 @@
-;;; zendeavor-sh-script -- init for shell-script specifics
+;;; zendeavor-sh-mode -- init for shell-script specifics
 ;;; Commentary:
 ;;;
 ;;; Code:
