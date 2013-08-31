@@ -25,11 +25,12 @@
 
 ;; hooks
 ;; this should obviously be doable without repetitions...
-(add-hook 'prog-mode-hook (rainbow-delimiters-mode +1))
-(add-hook 'prog-mode-hook (smartparens-mode +1))
-(add-hook 'prog-mode-hook (flycheck-mode +1))
-(add-hook 'prog-mode-hook (auto-complete-mode +1))
-(add-hook 'emacs-lisp-mode-hook (eldoc-mode +1))
+(add-hook 'prog-mode-hook (lambda () (rainbow-delimiters-mode +1)))
+(add-hook 'prog-mode-hook (lambda () (smartparens-mode +1)))
+(add-hook 'prog-mode-hook (lambda () (flycheck-mode +1)))
+(add-hook 'prog-mode-hook (lambda () (auto-complete-mode +1)))
+(add-hook 'emacs-lisp-mode-hook (lambda () (eldoc-mode +1)))
+(add-hook 'ielm-mode-hook (lambda () (eldoc-mode +1)))
 
 ;; variables
 (setq-default
