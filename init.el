@@ -2,14 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-;; requires
-(require 'better-defaults)
-(require 'smartparens-config)
-(require 'thingatpt)
-
-;; delayed loads
-(eval-after-load "sh-mode" (require 'zendeavor-sh-mode))
-
+(package-initialize)
 ;; lists
 (let ((default-directory
         (concat
@@ -23,14 +16,28 @@
 (add-to-list 'package-archives
   '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
+;; requires
+(require 'smartparens-config)
+(require 'thingatpt)
+
+
+;; delayed loads
+(eval-after-load "sh-mode"
+  '(progn
+    (require 'zendeavor-sh-mode)))
+
 ;; hooks
-;; this should obviously be doable without repetitions...
-(add-hook 'prog-mode-hook (lambda () (rainbow-delimiters-mode +1)))
-(add-hook 'prog-mode-hook (lambda () (smartparens-mode +1)))
-(add-hook 'prog-mode-hook (lambda () (flycheck-mode +1)))
-(add-hook 'prog-mode-hook (lambda () (auto-complete-mode +1)))
-(add-hook 'emacs-lisp-mode-hook (lambda () (eldoc-mode +1)))
-(add-hook 'ielm-mode-hook (lambda () (eldoc-mode +1)))
+(defun common-prog-modes ()
+  "Default modes for prog-mode-hook."
+  (rainbow-delimiters-mode +1)
+  (smartparens-mode +1)
+  (flycheck-mode +1))
+
+(add-hook 'prog-mode-hook 'common-prog-modes)
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;; variables
 (setq-default
@@ -44,13 +51,15 @@
  ;; future defaults
  )
 
+(setq inhibit-splash-screen t)
+(setq ido-save-directory-list-file (concat user-emacs-directory "ido"))
 ;; fuck this fucking customize thing
 (setq custom-file
       (concat
        (file-name-as-directory user-emacs-directory) "emacs-custom.el"))
 
 ;; theme
-(load-theme 'zenburn t)
+(load-theme 'solarized-dark t)
 
 ;; keybindings
 (global-set-key (kbd "C-c C-b") 'browse-url-at-point)
@@ -58,6 +67,8 @@
                 (lambda ()
                   (interactive)
                   (join-line -1)))
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+(define-key global-map (kbd "C-c C-SPC") 'ace-jump-mode-pop-mark)
 ;; Apsu
 ;; Make M-f/b/d/bkspc not suck!
 (global-set-key (kbd "M-f") 'forward-same-syntax)
@@ -66,7 +77,7 @@
                   (interactive)
                   (forward-same-syntax -1)))
 (defun kill-syntax (&optional arg)
-  "Kill ARG sets of syntax characters after point."
+  "Kill ARG set of syntax characters after point."
   (interactive "p")
   (let ((opoint (point)))
     (forward-same-syntax arg)
