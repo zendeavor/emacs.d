@@ -25,14 +25,14 @@
 ;; general macros and functions
 (defun common-prog-modes ()
   "Default modes for 'prog-mode-hook."
-  (rainbow-delimiters-mode +1)
-  (smartparens-mode +1)
-  (flycheck-mode +1))
+  (rainbow-delimiters-mode 1)
+  (smartparens-mode 1)
+  (flycheck-mode 1))
 
 (defun common-global-modes ()
   "Default modes for 'after-init-hook."
-  (global-company-mode +1)
-  (show-smartparens-global-mode +1)
+  (global-company-mode 1)
+  (show-smartparens-global-mode 1)
   (global-auto-revert-mode 1)
   (ido-ubiquitous-mode 1))
 
@@ -40,7 +40,7 @@
 (defun common-elisp-modes ()
   "Default modes for 'emacs-lisp-mode-hook."
   (turn-on-eldoc-mode)
-  (elisp-slime-nav-mode t))
+  (elisp-slime-nav-mode 1))
 
 (defun rotate-windows ()
   "Rotate your windows." ; whattheemacsd
