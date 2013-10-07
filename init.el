@@ -37,18 +37,17 @@
          (message "You can't rotate a single window!"))
         (t
          (setq i 1)
-         (setq numWindows (count-windows))
+         (setq num-windows (count-windows))
          (while  (< i numWindows)
            (let* (
                   (w1 (elt (window-list) i))
-                  (w2 (elt (window-list) (+ (% i numWindows) 1)))
+                  (w2 (elt (window-list) (+ (% i num-windows) 1)))
 
                   (b1 (window-buffer w1))
                   (b2 (window-buffer w2))
 
                   (s1 (window-start w1))
-                  (s2 (window-start w2))
-                  )
+                  (s2 (window-start w2)))
              (set-window-buffer w1  b2)
              (set-window-buffer w2 b1)
              (set-window-start w1 s2)
@@ -86,7 +85,7 @@
           (set-window-buffer (selected-window) this-win-buffer)
           (set-window-buffer (next-window) next-win-buffer)
           (select-window first-win)
-          (If this-win-2nd (other-window 1))))))
+          (if this-win-2nd (other-window 1))))))
 
 (defun cleanup-buffer-safe ()
   "Perform a bunch of safe operations on the whitespace content of a buffer.
@@ -181,19 +180,7 @@ Including indent-buffer, which should not be called automatically on save." ; wh
   (setq-local python-check-command "flake8")
   (setq-local flymake-no-changes-timeout 60)
   (setq-local flymake-start-syntax-check-on-newline nil)
-  (setq-local ac-trigger-key "TAB")
-  (setq-local ac-auto-show-menu 0.4)
-  (setq-local ac-quick-help-delay 0.5)
-  (define-key ac-completing-map (kbd "RET") nil)
-  (define-key ac-completing-map (kbd "<return>") nil)
-  (let ((old (when (boundp 'yas-trigger-key)
-               yas-trigger-key)))
-    (setq-local yas-trigger-key "C-c C-i")
-    (when (fboundp 'yas--trigger-key-reload)
-      (yas--trigger-key-reload old)))
-  (when (fboundp 'ac-set-trigger-key)
-    (ac-set-trigger-key ac-trigger-key))
-    (elpy-initialize-local-variables))
+  (elpy-initialize-local-variables))
 
 (defun eshell-mode-setup ()
   "Setup fn for eshell."
@@ -310,6 +297,7 @@ Including indent-buffer, which should not be called automatically on save." ; wh
 
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
+
 ;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
 
 ;;; init.el ends here

@@ -12,23 +12,24 @@
       erc-mode-line-format "%t"
       erc-fill-function 'erc-fill-static
       erc-fill-static-center 18
-      erc-modules '(pcomplete
-                    hl-nicks
-                    netsplit
-                    fill
+      erc-modules '(autojoin
                     button
-                    match
                     completion
-                    readonly
-                    networks
-                    ring
-                    autojoin
-                    noncommands
+                    fill
+                    hl-nicks
                     irccontrols
-                    move-to-prompt
-                    stamp
+                    list
+                    match
                     menu
-                    list))
+                    move-to-prompt
+                    netsplit
+                    networks
+                    noncommands
+                    pcomplete
+                    readonly
+                    ring
+                    stamp
+                    truncate))
 ;; (erc-update-modules)
 
 (defun irc-frame ()
