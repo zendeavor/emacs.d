@@ -10,26 +10,27 @@
       erc-hide-list '("JOIN" "PART" "QUIT" "NICK")
       erc-current-nick-highlight-type 'nick
       erc-mode-line-format "%t"
-      erc-fill-function 'erc-fill-static
+      erc-fill-function 'erc-fill-variable
       erc-fill-static-center 18
-      erc-modules '(autojoin
-                    button
-                    completion
-                    fill
-                    hl-nicks
-                    irccontrols
-                    list
-                    match
-                    menu
-                    move-to-prompt
-                    netsplit
-                    networks
-                    noncommands
-                    pcomplete
-                    readonly
-                    ring
-                    stamp
-                    truncate))
+      ;; erc-modules '(autojoin
+      ;;               button
+      ;;               completion
+      ;;               fill
+      ;;               hl-nicks
+      ;;               irccontrols
+      ;;               list
+      ;;               match
+      ;;               menu
+      ;;               move-to-prompt
+      ;;               netsplit
+      ;;               networks
+      ;;               noncommands
+      ;;               pcomplete
+      ;;               readonly
+      ;;               ring
+      ;;               stamp
+      ;;               truncate)
+      )
 ;; (erc-update-modules)
 
 (defun irc-frame ()

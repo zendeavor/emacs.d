@@ -38,7 +38,7 @@
         (t
          (setq i 1)
          (setq num-windows (count-windows))
-         (while  (< i numWindows)
+         (while  (< i num-windows)
            (let* (
                   (w1 (elt (window-list) i))
                   (w2 (elt (window-list) (+ (% i num-windows) 1)))
@@ -53,13 +53,6 @@
              (set-window-start w1 s2)
              (set-window-start w2 s1)
              (setq i (1+ i)))))))
-
-;; (defmacro ido-ubiquitous-use-new-completing-read (cmd package)
-;;    "Fix ido-ubiquitous for CMD in PACKAGE." ; whattheemacsd
-;;    `(eval-after-load ,package
-;;       '(defadvice ,cmd (around ido-ubiquitous-new activate)
-;;          (let ((ido-ubiquitous-enable-compatibility nil))
-;;           ad-do-it))))
 
 (defun toggle-window-split ()
   "Shuffle window orientation."         ; whattheemacsd
@@ -133,6 +126,15 @@ Including indent-buffer, which should not be called automatically on save." ; wh
                              "--force-output" "yes" "-quiet" "-clean" "-bare"
                              "-omit" "--drop-proprietary-attributes" "yes"
                              "--hide-comments" "yes")))
+(defun isml ()
+  "If sml repl exists, then restart it else create a new repl"
+  (interactive)
+  (when (get-buffer "*sml*")
+    (with-current-buffer "*sml*"
+      (when (process-live-p "sml")
+        (comint-send-eof)))
+    (sleep-for 0.2))
+  (sml-run "sml" ""))
 
 (defun common-global-modes ()
   "Default modes for `after-init-hook'."
@@ -140,6 +142,7 @@ Including indent-buffer, which should not be called automatically on save." ; wh
   (menu-bar-mode -1)
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
+  (column-number-mode 1)
   (helm-mode 1)
   (global-undo-tree-mode 1)
   (global-hl-line-mode 1)
@@ -170,7 +173,7 @@ Including indent-buffer, which should not be called automatically on save." ; wh
   "Default modes for `emacs-lisp-mode-hook'."
   (turn-on-eldoc-mode)
   (elisp-slime-nav-mode 1)
-  (pretty-symbols-mode))
+  (purty-mode 1))
 
 (defun elpy-mode-setup ()
   "Config elpy."
@@ -192,6 +195,7 @@ Including indent-buffer, which should not be called automatically on save." ; wh
 (add-hook 'after-init-hook 'emacs-after-init)
 (add-hook 'prog-mode-hook 'common-prog-modes)
 (add-hook 'before-save-hook 'cleanup-buffer-safe)
+(add-hook 'auto-complete-mode-hook (lambda () (auto-complete-mode -1)))
 
 ; lisps
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
@@ -205,7 +209,7 @@ Including indent-buffer, which should not be called automatically on save." ; wh
 (add-hook 'python-mode-hook 'elpy-mode-setup)
 
 ; shell
-(eval-after-load "sh-script" '(require 'zendeavor-sh-mode))
+(eval-after-load 'sh-script '(require 'zendeavor-sh-mode))
 
 ; eshell
 (add-hook 'eshell-mode-hook 'eshell-mode-setup)
@@ -215,6 +219,7 @@ Including indent-buffer, which should not be called automatically on save." ; wh
 
 ;; variable settings
 (setq-default
+ package-enable-at-startup nil
 
  ;; whitespace
  require-final-newline t
@@ -234,6 +239,8 @@ Including indent-buffer, which should not be called automatically on save." ; wh
  ;; w3
  w3-fast-parse-tidy-program "/usr/bin/tidy"
 
+ ;; eww
+ eww-download-path "~/downloads"
  ;; cleaner dired
  dired-details-hidden-string "--- "
  global-auto-revert-non-file-buffers t
@@ -285,14 +292,15 @@ Including indent-buffer, which should not be called automatically on save." ; wh
 (global-set-key (kbd "C-c s") 'magit-status)
 (global-set-key (kbd "C-c c") 'cleanup-buffer)
 (global-set-key (kbd "C-c w") 'toggle-window-split)
-(global-set-key (kbd "C-c C-w") 'rotate-windows)
+(global-set-key (kbd "C-c W") 'rotate-windows)
 (global-set-key (kbd "C-c C-b") 'browse-url-at-point)
 (global-set-key (kbd "C-=") 'er/expand-region)
-(global-set-key (kbd "M-j") (lambda () (join-line -1)))
+(global-set-key (kbd "M-j") (lambda () (interactive) (join-line -1)))
 (global-set-key (kbd "C-c C-SPC") 'ace-jump-word-mode)
 (global-set-key (kbd "C-c SPC") 'ace-jump-char-mode)
 (global-set-key (kbd "C-c M-SPC") 'ace-jump-mode-pop-mark)
 (global-set-key (kbd "M-/") 'hippie-expand)
+(global-set-key (kbd "C-c TAB") 'yas-expand)
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
 
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
